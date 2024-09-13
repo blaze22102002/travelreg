@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request Details</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="container mt-4">
+    <h1>Request Details</h1>
+    <div id="requestDetails">
+        <!-- Details will be loaded here by JavaScript -->
+    </div>
+</div>
+<button class="btn btn-primary" onclick="window.location.href='userview.html'">Back</button>
+
+<script>
+    function getQueryParam(name) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(name);
+    }
+
+    function loadDetails() {
+        const index = getQueryParam('index');
+        const data = JSON.parse(localStorage.getItem('travelRequests')) || [];
+        const request = data.find(req => req.index == index);
+        
+        if (request) {
+            document.getElementById('requestDetails').innerHTML = `
+                <p><strong>Employee ID:</strong> ${request.empID}</p>
+                <p><strong>Employee Name:</strong> ${request.empName}</p>
+                <p><strong>Project:</strong> ${request.project}</p>
+                <p><strong>Cause of Travel:</strong> ${request.cause}</p>
+                <p><strong>Source:</strong> ${request.source}</p>
+                <p><strong>Destination:</strong> ${request.destination}</p>
+                <p><strong>From Date:</strong> ${request.fromDate}</p>
+                <p><strong>No of Days:</strong> ${request.noOfDays}</p>
+                <p><strong>To Date:</strong> ${request.toDate}</p>
+                <p><strong>Mode of Travel:</strong> ${request.modeOfTravel}</p>
+                <p><strong>Priority:</strong> ${request.priority}</p>
+            `;
+        } else {
+            document.getElementById('requestDetails').innerHTML = '<p>Request not found.</p>';
+        }
+    }
+
+    window.onload = loadDetails;
+</script>
+
+</body>
+</html>
